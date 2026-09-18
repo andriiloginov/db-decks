@@ -277,7 +277,7 @@ async function stats(deck, o) {                  // title + 2–4 big numbers
   return s;
 }
 
-async function cards(deck, o) {                  // 2–3 cards: chip label, value chip, bullets. First card highlighted.
+async function cards(deck, o) {                  // 2–3 cards: chip label, boxless accent-colored value, bullets. First card highlighted.
   const { pres, theme } = deck;
   const s = pres.addSlide();
   await chrome(deck, s, { eyebrow: o.eyebrow, title: o.title, source: o.source, notes: o.notes });
