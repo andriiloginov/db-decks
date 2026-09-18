@@ -1,0 +1,16 @@
+{
+  "images": [
+    {
+      "id": "example-ugv-01",
+      "file": "images/example-ugv-01.png",
+      "label": "Машинка / наземний робот (UGV)",
+      "tags": ["ugv", "наземний робот", "машинка", "ground vehicle"]
+    },
+    {
+      "id": "example-drone-01",
+      "file": "images/example-drone-01.png",
+      "label": "Дрон / квадрокоптер",
+      "tags": ["drone", "дрон", "uav", "quadcopter"]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "db-decks",
+  "version": "1.0.0",
+  "description": "Defence Builder pptx/pdf deck system — source of truth for the db-pptx-decks skill (tokens, brand assets, layout generator, hero-image library).",
+  "private": true,
+  "main": "db_deck.js",
+  "dependencies": {
+    "pptxgenjs": "^4",
+    "sharp": "^0.33"
+  }
+}
