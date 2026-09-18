@@ -1,6 +1,6 @@
 # Tokens
 
-All values below are encoded as constants in `db_deck.js` (`THEMES`, `N`, `F`, `T`) — never
+All values below are encoded as constants in `db_deck.py` (`THEMES`, `N`, `F`, `T`) — never
 type a raw hex or size in slide-building code. This file is the human-readable reference.
 
 ## Accent roles (same role names for both directions)
@@ -70,7 +70,7 @@ line 17 mono UPPERCASE, closing 102 Bold / 42.
 | Watermark "BUILDER" | (0, 959) 1845 wide | same |
 | Brand, Ecosystem | (1759, 80) mark 91×46, all `#494A4A` | mark only, no wordmark |
 | Brand, Accelerator | (1655, 68) lockup 206 wide | full lockup with blue cross + ACCELERATOR |
-| CONFIDENTIAL badge | (1707, 10) 203×40, white, 0.75pt `#E1E1E1` border; eye-slash icon 20px at (1727, 20); DM Mono Medium 18 `#494A4A` | on by default; `createDeck(dir, { confidential: false })` removes it |
+| CONFIDENTIAL badge | (1707, 10) 203×40, white, 0.75pt `#E1E1E1` border; eye-slash icon 20px at (1727, 20); DM Mono Medium 18 `#494A4A` | on by default; `create_deck(dir, confidential=False)` removes it |
 | Eyebrow (section name) | (60, 60), solid accent badge sized by `chipBox()` | DM Mono Medium 24 white caps; 1–2 words |
 | Title | (60, 172) w 1500 | FK Grotesk Bold 60, accent words via `**…**` |
 | Three-dot motif | (1816–1840, 976–1000) | one `#B1B1B1` dot over two `#373737` dots, 11 px |

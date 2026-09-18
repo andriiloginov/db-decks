@@ -1,18 +1,20 @@
 # Layout catalogue
 
-All functions live in `db_deck.js` and are exported from it. Call them on a `deck` created
-with `db.createDeck('ecosystem' | 'accelerator', { title, confidential })`.
+All functions live in `db_deck.py` and are module-level (`import db_deck as db`). Call them
+on a `deck` created with `db.create_deck('ecosystem' | 'accelerator', title=..., confidential=...)`.
+Where the JS version took one options object, the Python port takes keyword arguments
+(`db.cover(deck, title=..., subtitle=..., ...)`).
 
 | Function | Use for | Content limits |
 |---|---|---|
-| `cover(deck, {title, subtitle, description, pills, date, hero, heroAlt})` | first slide | title ≤ 30 chars; subtitle ≤ 70 chars with one `**accent**` phrase; ≤ 3 pills, each ≤ 22 chars. Draws a thin underline divider between title and subtitle (Figma node 4:81) |
-| `statement(deck, {eyebrow, text, hero})` | one key message / section opener | ≤ 90 chars, one `**accent**` phrase |
-| `points(deck, {eyebrow, title, items:[{head, detail}], source})` | 2–4 arguments | head ≤ 50 chars, detail ≤ 90 chars |
-| `stats(deck, {eyebrow, title, items:[{value, label}]})` | 2–4 key numbers | value ≤ 7 chars, label ≤ 60 chars |
-| `cards(deck, {eyebrow, title, cards:[{label, value, bullets}], highlight})` | 2–3 options / stages / tiers | label ≤ 26 chars, value ≤ 6 chars, ≤ 4 bullets of ≤ 70 chars. Label chip is sized generously via `chipBox()` so it never clips; value renders as a boxless bold accent-colored number (same treatment as `stats()`), not a chip |
-| `bars(deck, {eyebrow, title, unit, data:[{label, value, display}], points, source})` | 2–6 values over time | exact values in `display`; optional 1–3 side points |
-| `closing(deck, {title, contact})` | last slide | white plate with notched corners |
-| `quoteBlock(deck, slide, x, y, w, {label, quote, cite, scale})` / `quoteBlockMetrics(w, {...})` | pull-quote / testimonial, solid-accent block: quote-mark icon + caps label in a left column, bold quote + citation in a right column (~50/50 split) — matches Figma node 2202:6432 | label ≤ 20 chars caps, quote ≤ 140 chars, cite ≤ 60 chars. Not a full-slide layout by itself — call `quoteBlockMetrics` first to measure (e.g. to vertically center it: `top + (avail - h) / 2`), then `quoteBlock` to draw. A single large headline quote (`scale: 1.5`) plus a row of 2–3 smaller ones (`scale: 1`) does not fit on one slide — split into two |
+| `cover(deck, title, subtitle, description, pills, date, hero, notes)` | first slide | title ≤ 30 chars; subtitle ≤ 70 chars with one `**accent**` phrase; ≤ 3 pills, each ≤ 22 chars. Draws a thin underline divider between title and subtitle (Figma node 4:81) |
+| `statement(deck, text_, eyebrow, hero, notes)` | one key message / section opener | ≤ 90 chars, one `**accent**` phrase. Note the trailing underscore on `text_` — avoids shadowing the `text()` helper |
+| `points(deck, title, items=[{'head', 'detail'}], eyebrow, source, left_visual, notes)` | 2–4 arguments | head ≤ 50 chars, detail ≤ 90 chars |
+| `stats(deck, title, items=[{'value', 'label'}], eyebrow, source, notes)` | 2–4 key numbers | value ≤ 7 chars, label ≤ 60 chars |
+| `cards(deck, title, cards_=[{'label', 'value', 'bullets'}], eyebrow, source, highlight, notes)` | 2–3 options / stages / tiers | label ≤ 26 chars, value ≤ 6 chars, ≤ 4 bullets of ≤ 70 chars. Label chip is sized generously via `chip_box()` so it never clips; value renders as a boxless bold accent-colored number (same treatment as `stats()`), not a chip. Note the trailing underscore on `cards_` — avoids shadowing the built-in |
+| `bars(deck, title, data=[{'label', 'value', 'display'}], eyebrow, unit, points_, source, notes)` | 2–6 values over time | exact values in `display`; optional 1–3 side `points_` |
+| `closing(deck, title, contact, hero, notes)` | last slide | white plate with notched corners |
+| `quote_block(deck, slide, x, y, w, label, quote, cite, scale)` / `quote_block_metrics(w, label, quote, cite, scale)` | pull-quote / testimonial, solid-accent block: quote-mark icon + caps label in a left column, bold quote + citation in a right column (~50/50 split) — matches Figma node 2202:6432 | label ≤ 20 chars caps, quote ≤ 140 chars, cite ≤ 60 chars. Not a full-slide layout by itself — call `quote_block_metrics` first to measure (e.g. to vertically center it: `top + (avail - h) / 2`), then `quote_block` to draw. A single large headline quote (`scale=1.5`) plus a row of 2–3 smaller ones (`scale=1`) does not fit on one slide — split into two. Verified with `examples/test_quote.py` |
 
 ## Content rules
 
@@ -27,8 +29,10 @@ with `db.createDeck('ecosystem' | 'accelerator', { title, confidential })`.
 
 ## Building new layouts
 
-New layouts may be added using `chrome()`, `badge()`, `dots()`, `text()`, `bulletText()`,
-`rect()`, `dot()`, `placeSvg()`, `linesNeeded()`, `chipBox()`, `contentTop()`,
-`quoteBlock()`, `quoteBlockMetrics()`, `runs()` and the `THEMES` / `N` / `F` / `T` constants
-only — no raw hex or sizes, flat fills, no invented borders or shadows, no accent stripes.
-Add new layouts as a PR to `db_deck.js` in this repo, not as one-off code in a session.
+New layouts may be added using `chrome()`, `badge()`, `dots()`, `text()`, `bullet_text()`,
+`rect()`, `dot()`, `place_svg()`, `lines_needed()`, `chip_box()`, `content_top()`,
+`quote_block()`, `quote_block_metrics()`, `runs()` and the `THEMES` / `N` / `F` / `T`
+constants only — no raw hex or sizes, flat fills, no invented borders or shadows, no accent
+stripes. New shapes must go through `rect()`/`dot()`, never `add_shape()` directly (see
+`pitfalls.md` — otherwise you get a stray theme shadow back). Add new layouts as a commit to
+`db_deck.py` in this repo, not as one-off code in a session.

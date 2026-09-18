@@ -1,34 +1,39 @@
 # db-decks
 
 Джерело правди для Defence Builder pptx/pdf презентацій: токени бренду, генератор слайдів
-(`db_deck.js`, pptxgenjs + sharp) і бібліотека готових hero-зображень. Скіл `db-pptx-decks`
-клонує цей репозиторій і будує з нього, замість того щоб тримати весь генератор
-вбудованим у текст скіла.
+(`db_deck.py`, python-pptx + cairosvg) і бібліотека готових hero-зображень. Скіл
+`db-pptx-decks` клонує цей репозиторій і будує з нього, замість того щоб тримати весь
+генератор вбудованим у текст скіла.
 
 Той самий підхід, що й `dormotech-docs` для Dormotech: коли репо і скіл розходяться,
 **репо перемагає** — воно те, що реально білдить.
+
+**Чому Python, а не JS:** генератор навмисно написаний на Python, а не JavaScript/pptxgenjs,
+щоб власник репозиторію міг сам читати, підтримувати й лагодити код без сторонньої допомоги.
 
 ## Швидкий старт
 
 ```bash
 git clone https://github.com/andriiloginov/db-decks
 cd db-decks
-npm install
+pip install -r requirements.txt --break-system-packages   # або в venv, без цього флагу
 
-# редагуй/копіюй examples/example-build.js, тоді:
-node examples/example-build.js
+# редагуй/копіюй examples/example_build.py, тоді:
+python examples/example_build.py
 ```
 
-Один запуск дає `out.pptx`. `sharp` і `pptxgenjs` — залежності з `package.json`.
+Один запуск дає `out.pptx` (в корені репозиторію, поряд з тим, звідки запущено скрипт).
 
 ## Структура
 
 ```
 db-decks/
-├── db_deck.js                     ← генератор (createDeck, cover, statement, points, stats, cards, bars, closing, quoteBlock, ...)
-├── package.json
+├── db_deck.py                     ← генератор (create_deck, cover, statement, points, stats,
+│                                     cards, bars, closing, quote_block, quote_block_metrics, ...)
+├── requirements.txt                ← python-pptx, lxml, cairosvg, Pillow
 ├── examples/
-│   └── example-build.js           ← по одному прикладу кожного layout-у
+│   ├── example_build.py            ← по одному прикладу кожного layout-у (7 слайдів)
+│   └── test_quote.py               ← окремий приклад для quote_block()/quote_block_metrics()
 ├── assets/
 │   └── hero-images/
 │       ├── README.md               ← як додати нове зображення
@@ -39,3 +44,27 @@ db-decks/
     ├── layouts.md                  ← каталог layout-функцій і правила контенту
     ├── pitfalls.md                 ← вже виправлені баги — не наступай на ті ж граблі
     └── qa.md                       ← QA-чекліст перед здачею деки
+```
+
+## Залежності
+
+- `python-pptx` — сам .pptx контейнер, текст, форми, зображення.
+- `lxml` — низькорівневий доступ до OOXML там, де в python-pptx немає API (кольоровий
+  маркер списку, character tracking) — див. `docs/pitfalls.md`.
+- `cairosvg` + `Pillow` — растеризація вбудованих SVG (лого, іконки, watermark) у PNG перед
+  вставкою в слайд; висота розміщення завжди береться з фактичного співвідношення сторін
+  растру, ніколи «на слово» з `viewBox`.
+
+Шрифти (FK Grotesk, FK Grotesk Mono Medium, DM Mono, DM Mono Medium) **не** входять у цей
+репозиторій — немає прав на редистрибуцію. Потрібні лише на машині, де відкривають готовий
+`.pptx`; для генерації самого файлу шрифти не потрібні.
+
+## Статус
+
+Перевірено: OOXML-валідація (`validate.py`), рендер через LibreOffice + візуальний огляд усіх
+7 слайдів прикладу, self-audit шрифтів/кольорів/multi-`<a:pPr>` (чисто), окремий тест
+`quote_block()`/`quote_block_metrics()` (дві версії — headline і ряд менших цитат, кожна на
+своєму слайді). **Не перевірено ще в реальному PowerPoint** — LibreOffice двічі не показував
+реальний overflow, який показав PowerPoint (див. `docs/pitfalls.md`), тож перед тим як
+здавати деку з великою кількістю тексту/чіпів як фінальну, попроси користувача відкрити її в
+справжньому PowerPoint.
