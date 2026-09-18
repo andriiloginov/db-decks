@@ -506,6 +506,85 @@ def cards(deck, title, cards_, eyebrow=None, source=None, highlight=0, notes=Non
     return s
 
 
+def matrix(deck, title, columns, rows, eyebrow=None, source=None, highlight=None, notes=None):
+    """Dense feature-comparison table: rows of features x 2-4 columns of tiers/options.
+
+    columns: [str, ...] short column headers (<=20 chars, rendered caps/mono), 2-4.
+    rows: [{'label': str, 'values': [str, ...]}, ...] — one value per column, up to ~7 rows.
+        A value of '✓' renders as a bold accent checkmark; '–' / '-' / '' renders as a muted
+        dash ("not included"); anything else renders as short plain text (e.g. a number or
+        qualifier like "3 slots").
+    highlight: optional 0-based column index to tint, matching cards()' highlight convention.
+
+    No fixed row height — each row grows to fit its longest cell, so keep values short
+    (a word or two) rather than full sentences; this is a table, not another points() slide.
+    """
+    theme = deck.theme
+    s = _blank_slide(deck)
+    chrome(deck, s, eyebrow=eyebrow, title=title, source=source, notes=notes)
+    top = content_top(title)
+    cols = columns[:4]
+    n = len(cols)
+    x0, total_w = 60, 1800
+    # label_w=660 keeps a ~30-char row label ("Extended international access") on one line
+    # at T['body']/lines_needed()'s 0.7 coefficient — a narrower column (480px, the first
+    # cut of this layout) wrapped nearly every real-world label to 2 lines and blew the
+    # row-height budget past the slide bottom. See docs/pitfalls.md.
+    label_w = 660
+    gut = 20
+    col_w = (total_w - label_w - gut * n) / n
+    header_h = 64
+    pad_v = 20
+
+    def col_x(i):
+        return x0 + label_w + gut + i * (col_w + gut)
+
+    row_hs = []
+    for r in rows:
+        rh = lines_needed(r['label'], T['body'], label_w - 20) * T['body'] * 1.3
+        for v in (r.get('values') or [])[:n]:
+            vt = str(v)
+            if vt not in ('✓', '–', '-', ''):
+                rh = max(rh, lines_needed(vt, T['bodySm'], col_w - 20) * T['bodySm'] * 1.3)
+        row_hs.append(max(50, rh) + pad_v * 2)
+
+    total_h = min(header_h + sum(row_hs), 990 - top)  # clamp — keep rows short enough to fit
+
+    if highlight is not None and 0 <= highlight < n:
+        rect(s, col_x(highlight) - gut / 2, top, col_w + gut, total_h, theme['tint'])
+
+    for i, c in enumerate(cols):
+        cx = col_x(i)
+        hi = highlight == i
+        text(s, c, x=cx, y=top, w=col_w, h=header_h, size=T['chip'], font=F['monoMed'],
+             color=theme['strong'] if hi else N['text2'], caps=True, align='center', valign='middle')
+    rect(s, x0, top + header_h, total_w, 2, N['line'])
+
+    y = top + header_h
+    for ri, r in enumerate(rows):
+        rh = row_hs[ri]
+        text(s, r['label'], x=x0, y=y + pad_v, w=label_w - 20, h=rh - pad_v * 2, size=T['body'],
+             bold=True, valign='middle')
+        values = r.get('values') or []
+        for ci in range(n):
+            v = values[ci] if ci < len(values) else '–'
+            vt = str(v)
+            cx = col_x(ci)
+            if vt == '✓':
+                text(s, '✓', x=cx, y=y + pad_v, w=col_w, h=rh - pad_v * 2, size=T['h2'], bold=True,
+                     color=theme['accent'], align='center', valign='middle')
+            elif vt in ('–', '-', ''):
+                text(s, '–', x=cx, y=y + pad_v, w=col_w, h=rh - pad_v * 2, size=T['h2'],
+                     color=N['faint'], align='center', valign='middle')
+            else:
+                text(s, vt, x=cx, y=y + pad_v, w=col_w, h=rh - pad_v * 2, size=T['bodySm'],
+                     color=N['text2'], align='center', valign='middle', lh=1.25)
+        y += rh
+        if ri < len(rows) - 1:
+            rect(s, x0, y, total_w, 1, N['line'])
+    return s
+
+
 # Solid-accent pull-quote block — matches Figma node 2202:6432. quote_block_metrics() is pure
 # geometry (no drawing) so callers can measure before committing to a slide (e.g. to vertically
 # center: top + (avail - h) / 2), mirroring quoteBlock()/quoteBlockMetrics() in the JS version.
@@ -589,10 +668,23 @@ def closing(deck, title='Thank you!', contact=None, hero=None, notes=None):
     if hero:
         _add_image_cover(s, hero, 0, 0, 1920, 1080)
     place_svg(s, SVG['plate'], 59, 227, 1802)
-    text(s, title, x=333, y=430, w=1255, h=130, size=T['closing'], bold=True, align='center',
+    # Title box grows for a wrapped (2+ line) title instead of clipping/centering into a
+    # fixed 130px box — see docs/pitfalls.md. base_h/base_y are the original single-line
+    # geometry (y=430, h=130); for lines==1 this reduces to exactly that, so every existing
+    # 1-line closing title renders pixel-identical to before. Extra lines grow the box
+    # symmetrically around the same vertical center (495) and push the contact line down
+    # with it, so title and contact never overlap.
+    title_w = 1255
+    base_h = 130
+    line_h = T['closing']  # lh=1.0
+    lines = max(1, lines_needed(title, T['closing'], title_w))
+    title_h = base_h + (lines - 1) * line_h
+    title_y = 430 - (title_h - base_h) / 2
+    text(s, title, x=333, y=title_y, w=title_w, h=title_h, size=T['closing'], bold=True, align='center',
          valign='middle', lh=1.0)
     if contact:
-        text(s, contact, x=460, y=570, w=1000, h=60, size=T['closingSub'], align='center', valign='top')
+        contact_y = title_y + title_h + 10  # matches the original 570 gap exactly when lines==1
+        text(s, contact, x=460, y=contact_y, w=1000, h=60, size=T['closingSub'], align='center', valign='top')
     lock = SVG['ecoLockup'] if deck.direction == 'ecosystem' else SVG['accLockup']
     lw = 230 if deck.direction == 'ecosystem' else 182
     place_svg(s, lock, (1920 - lw) / 2, 300, lw)

@@ -90,6 +90,26 @@ those are marked below.
 - **Never build a throwaway "probe" slide just to measure a layout's height.** Compute
   height with a pure, side-effect-free metrics function instead (`quote_block_metrics()`,
   which `quote_block()` itself calls) and only draw once the position is known.
+- **`closing()`'s title box was a fixed 130px-tall single-line box; a title long enough to
+  wrap to 2 lines overflowed it and visibly collided with the `contact` line below** (shipped
+  once: a real Batch 4 partnership deck had "Let's build the pipeline together" wrap to two
+  lines and overlap "partnerships@defencebuilder.com"; worked around in that one deck by
+  shortening the title, but the box itself didn't know it could grow). Fixed by computing
+  `lines_needed()` on the title and growing the box by one `T['closing']`-tall line per extra
+  line, symmetrically around the same vertical center the 1-line design used — so a 1-line
+  title renders pixel-identical to before, and `contact` is repositioned relative to the
+  title's *actual* rendered bottom instead of a hardcoded y. Still untested past 2 lines —
+  keep closing titles short.
+
+- **`matrix()`'s first cut used a 480px label column, which wrapped nearly every
+  real-world row label to 2 lines** (`lines_needed()`'s 0.7 coefficient gives ~21
+  chars/line at `T['body']` in a 460px text area — most feature labels run 20-30 chars) —
+  the resulting per-row height blew past `990 - content_top(title)` and the table's last
+  row(s) ran off the bottom of the slide, overlapping the source line. Fixed by widening
+  the label column to 660px (fits ~30 chars on one line) before the layout shipped, caught
+  in QA with `examples/test_matrix_and_closing.py` rather than in a real deck. If you widen
+  the row-label font or shrink `label_w` again, re-check with a realistic (not short
+  placeholder) set of row labels — short test strings hide this class of bug.
 
 ## Network / asset pitfalls
 

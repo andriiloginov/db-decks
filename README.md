@@ -30,11 +30,13 @@ python examples/example_build.py
 ```
 db-decks/
 ├── db_deck.py                     ← генератор (create_deck, cover, statement, points, stats,
-│                                     cards, bars, closing, quote_block, quote_block_metrics, ...)
+│                                     cards, bars, matrix, closing, quote_block, quote_block_metrics, ...)
 ├── requirements.txt                ← python-pptx, lxml, cairosvg, Pillow
 ├── examples/
 │   ├── example_build.py            ← по одному прикладу кожного layout-у (7 слайдів)
-│   └── test_quote.py               ← окремий приклад для quote_block()/quote_block_metrics()
+│   ├── test_quote.py               ← окремий приклад для quote_block()/quote_block_metrics()
+│   └── test_matrix_and_closing.py  ← matrix() (таблиця-порівняння) + closing() з 1- та 2-рядковим
+│                                     заголовком (регресійний QA-скрипт для обох правок)
 ├── assets/
 │   └── hero-images/
 │       ├── README.md               ← як додати нове зображення
@@ -65,7 +67,11 @@ db-decks/
 Перевірено: OOXML-валідація (`validate.py`), рендер через LibreOffice + візуальний огляд усіх
 7 слайдів прикладу, self-audit шрифтів/кольорів/multi-`<a:pPr>` (чисто), окремий тест
 `quote_block()`/`quote_block_metrics()` (дві версії — headline і ряд менших цитат, кожна на
-своєму слайді). **Не перевірено ще в реальному PowerPoint** — LibreOffice двічі не показував
-реальний overflow, який показав PowerPoint (див. `docs/pitfalls.md`), тож перед тим як
-здавати деку з великою кількістю тексту/чіпів як фінальну, попроси користувача відкрити її в
-справжньому PowerPoint.
+своєму слайді), окремий тест `matrix()` (таблиця-порівняння 3×6 з реалістичними довжинами
+лейблів) і `closing()` з 1- та 2-рядковим заголовком (регресія + сам баг-кейс — обидва чисті).
+Реальна деку (Batch 4 Partnership, 13 слайдів) пройшла повний QA через цей генератор і була
+здана користувачу; саме на ній і знайшовся баг `closing()`, який тепер виправлено в самому
+генераторі, а не лише обходом у тій деці. **Не перевірено ще в реальному PowerPoint** —
+LibreOffice двічі не показував реальний overflow, який показав PowerPoint (див.
+`docs/pitfalls.md`), тож перед тим як здавати деку з великою кількістю тексту/чіпів як
+фінальну, попроси користувача відкрити її в справжньому PowerPoint.

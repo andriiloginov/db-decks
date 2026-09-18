@@ -1,16 +1,377 @@
 {
   "images": [
     {
-      "id": "example-ugv-01",
-      "file": "images/example-ugv-01.png",
-      "label": "Машинка / наземний робот (UGV)",
-      "tags": ["ugv", "наземний робот", "машинка", "ground vehicle"]
+      "id": "aircraft-fixed-wing-drone",
+      "file": "images/Aircraft – Fixed-Wing Drone.png",
+      "label": "Літак / дрон з фіксованим крилом",
+      "tags": [
+        "aircraft",
+        "plane",
+        "fixed-wing",
+        "drone",
+        "літак",
+        "дрон",
+        "авіація"
+      ]
     },
     {
-      "id": "example-drone-01",
-      "file": "images/example-drone-01.png",
+      "id": "aircraft-propeller-plane",
+      "file": "images/Aircraft – Propeller Plane.png",
+      "label": "Літак з гвинтовим двигуном",
+      "tags": [
+        "aircraft",
+        "plane",
+        "propeller",
+        "літак",
+        "гвинтовий",
+        "авіація"
+      ]
+    },
+    {
+      "id": "aircraft-stealth-jet",
+      "file": "images/Aircraft – Stealth Jet.png",
+      "label": "Стелс-винищувач",
+      "tags": [
+        "aircraft",
+        "jet",
+        "stealth",
+        "fighter",
+        "літак",
+        "винищувач",
+        "авіація"
+      ]
+    },
+    {
+      "id": "aircraft-swept-wing-jet",
+      "file": "images/Aircraft – Swept-Wing Jet.png",
+      "label": "Реактивний літак зі стріловидним крилом",
+      "tags": [
+        "aircraft",
+        "jet",
+        "swept-wing",
+        "літак",
+        "реактивний",
+        "авіація"
+      ]
+    },
+    {
+      "id": "aircraft-vertical-wing-concept",
+      "file": "images/Aircraft – Vertical-Wing Concept.png",
+      "label": "Концепт літака з вертикальним крилом",
+      "tags": [
+        "aircraft",
+        "concept",
+        "vertical-wing",
+        "літак",
+        "концепт",
+        "авіація"
+      ]
+    },
+    {
+      "id": "antenna-circular-dish",
+      "file": "images/Antenna – Circular Dish.png",
+      "label": "Антена / супутникова тарілка",
+      "tags": [
+        "antenna",
+        "dish",
+        "satellite",
+        "антена",
+        "тарілка",
+        "зв'язок"
+      ]
+    },
+    {
+      "id": "communication-internet-module",
+      "file": "images/Communication — Internet Module.png",
+      "label": "Модуль зв'язку / інтернет",
+      "tags": [
+        "communication",
+        "internet",
+        "module",
+        "зв'язок",
+        "інтернет",
+        "модуль"
+      ]
+    },
+    {
+      "id": "controller-gamepad",
+      "file": "images/Controller – Gamepad.png",
+      "label": "Геймпад / пульт керування",
+      "tags": [
+        "controller",
+        "gamepad",
+        "remote",
+        "геймпад",
+        "пульт",
+        "керування"
+      ]
+    },
+    {
+      "id": "drone-compact-quadcopter",
+      "file": "images/Drone – Compact Quadcopter.png",
+      "label": "Компактний квадрокоптер",
+      "tags": [
+        "drone",
+        "quadcopter",
+        "compact",
+        "uav",
+        "дрон",
+        "квадрокоптер"
+      ]
+    },
+    {
+      "id": "drone-quadrotor",
+      "file": "images/Drone – Quadrotor.png",
       "label": "Дрон / квадрокоптер",
-      "tags": ["drone", "дрон", "uav", "quadcopter"]
+      "tags": [
+        "drone",
+        "quadrotor",
+        "uav",
+        "дрон",
+        "квадрокоптер"
+      ]
+    },
+    {
+      "id": "drone-spider-frame",
+      "file": "images/Drone – Spider Frame.png",
+      "label": "Дрон на павукоподібній рамі",
+      "tags": [
+        "drone",
+        "spider frame",
+        "uav",
+        "дрон",
+        "рама"
+      ]
+    },
+    {
+      "id": "icons-filter",
+      "file": "images/Icons — Filter.png",
+      "label": "Іконка — фільтр",
+      "tags": [
+        "icon",
+        "filter",
+        "іконка",
+        "фільтр"
+      ]
+    },
+    {
+      "id": "icons-measurement",
+      "file": "images/Icons — Mesurement.png",
+      "label": "Іконка — вимірювання",
+      "tags": [
+        "icon",
+        "measurement",
+        "іконка",
+        "вимірювання"
+      ]
+    },
+    {
+      "id": "icons-tools",
+      "file": "images/Icons — Tools.png",
+      "label": "Іконка — інструменти",
+      "tags": [
+        "icon",
+        "tools",
+        "іконка",
+        "інструменти"
+      ]
+    },
+    {
+      "id": "key-minimal-icon",
+      "file": "images/Key – Minimal Icon.png",
+      "label": "Ключ — мінімалістична іконка",
+      "tags": [
+        "key",
+        "icon",
+        "ключ",
+        "іконка"
+      ]
+    },
+    {
+      "id": "mechanical-hexagonal-module-cluster",
+      "file": "images/Mechanical – Hexagonal Module Cluster.png",
+      "label": "Механічний кластер шестигранних модулів",
+      "tags": [
+        "mechanical",
+        "module",
+        "hexagonal",
+        "механізм",
+        "модуль"
+      ]
+    },
+    {
+      "id": "numbers-3",
+      "file": "images/Numbers – 3.png",
+      "label": "Цифра 3",
+      "tags": [
+        "number",
+        "3",
+        "цифра"
+      ]
+    },
+    {
+      "id": "object-badge-profile-a",
+      "file": "images/Object – Badge Profile A.png",
+      "label": "Бейдж / значок — профіль A",
+      "tags": [
+        "badge",
+        "object",
+        "бейдж",
+        "значок"
+      ]
+    },
+    {
+      "id": "object-badge-profile-b",
+      "file": "images/Object – Badge Profile B.png",
+      "label": "Бейдж / значок — профіль B",
+      "tags": [
+        "badge",
+        "object",
+        "бейдж",
+        "значок"
+      ]
+    },
+    {
+      "id": "object-badge-profile-c",
+      "file": "images/Object – Badge Profile C.png",
+      "label": "Бейдж / значок — профіль C",
+      "tags": [
+        "badge",
+        "object",
+        "бейдж",
+        "значок"
+      ]
+    },
+    {
+      "id": "rover-antenna-platform",
+      "file": "images/Rover – Antenna Platform.png",
+      "label": "Наземний робот з антеною",
+      "tags": [
+        "rover",
+        "ugv",
+        "antenna",
+        "ровер",
+        "робот",
+        "антена"
+      ]
+    },
+    {
+      "id": "rover-armored-exploration-vehicle",
+      "file": "images/Rover – Armored Exploration Vehicle.png",
+      "label": "Бронований розвідувальний ровер",
+      "tags": [
+        "rover",
+        "ugv",
+        "armored",
+        "ровер",
+        "броня",
+        "розвідка"
+      ]
+    },
+    {
+      "id": "rover-cargo-platform",
+      "file": "images/Rover – Cargo Platform.png",
+      "label": "Вантажна платформа-ровер",
+      "tags": [
+        "rover",
+        "ugv",
+        "cargo",
+        "ровер",
+        "вантаж"
+      ]
+    },
+    {
+      "id": "rover-compact-utility-vehicle",
+      "file": "images/Rover – Compact Utility Vehicle.png",
+      "label": "Компактний утилітарний ровер",
+      "tags": [
+        "rover",
+        "ugv",
+        "utility",
+        "ровер",
+        "утилітарний"
+      ]
+    },
+    {
+      "id": "rover-front-perspective",
+      "file": "images/Rover – Front Perspective.png",
+      "label": "Ровер, вигляд спереду",
+      "tags": [
+        "rover",
+        "ugv",
+        "ровер"
+      ]
+    },
+    {
+      "id": "rover-heavy-exploration-vehicle",
+      "file": "images/Rover – Heavy Exploration Vehicle.png",
+      "label": "Важкий розвідувальний ровер",
+      "tags": [
+        "rover",
+        "ugv",
+        "heavy",
+        "ровер",
+        "важкий",
+        "розвідка"
+      ]
+    },
+    {
+      "id": "rover-instrument-platform",
+      "file": "images/Rover – Instrument Platform.png",
+      "label": "Ровер-платформа для приладів",
+      "tags": [
+        "rover",
+        "ugv",
+        "instrument",
+        "ровер",
+        "прилади"
+      ]
+    },
+    {
+      "id": "rover-rear-perspective",
+      "file": "images/Rover – Rear Perspective.png",
+      "label": "Ровер, вигляд ззаду",
+      "tags": [
+        "rover",
+        "ugv",
+        "ровер"
+      ]
+    },
+    {
+      "id": "rover-tactical-utility-vehicle",
+      "file": "images/Rover – Tactical Utility Vehicle.png",
+      "label": "Тактичний утилітарний ровер",
+      "tags": [
+        "rover",
+        "ugv",
+        "tactical",
+        "ровер",
+        "тактичний"
+      ]
+    },
+    {
+      "id": "rover-tracked-exploration-vehicle",
+      "file": "images/Rover – Tracked Exploration Vehicle.png",
+      "label": "Гусеничний розвідувальний ровер",
+      "tags": [
+        "rover",
+        "ugv",
+        "tracked",
+        "ровер",
+        "гусеничний",
+        "розвідка"
+      ]
+    },
+    {
+      "id": "symbol-interlocking-loops",
+      "file": "images/Symbol – Interlocking Loops.png",
+      "label": "Символ — переплетені кільця",
+      "tags": [
+        "symbol",
+        "abstract",
+        "символ",
+        "абстракція"
+      ]
     }
   ]
 }
