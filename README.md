@@ -26,6 +26,11 @@ db-decks/
 ├── db_deck.py                     ← генератор (create_deck, cover, statement, points, stats,
 │                                     cards, bars, matrix, closing, quote_block, quote_block_metrics, ...)
 ├── requirements.txt                ← python-pptx, lxml, cairosvg, Pillow
+├── figma/
+│   └── db_figma.js                 ← рендерер тих самих layout-ів у Figma (Plugin API, для use_figma)
+├── scripts/
+│   ├── figma_prelude.py            ← віддає THEMES/N/F/T/SVG з db_deck.py як JS-константи
+│   └── figma_payload.py            ← збирає повний `code` для одного виклику use_figma
 ├── examples/
 │   ├── example_build.py            ← по одному прикладу кожного layout-у (7 слайдів)
 │   ├── test_quote.py               ← окремий приклад для quote_block()/quote_block_metrics()
@@ -39,9 +44,18 @@ db-decks/
 └── docs/
     ├── tokens.md                   ← кольори, шрифти, type scale, grid, chrome-елементи
     ├── layouts.md                  ← каталог layout-функцій і правила контенту
+    ├── figma.md                    ← рендер деки у Figma: воркфлоу, spec-и, шрифти, обмеження
     ├── pitfalls.md                 ← вже виправлені баги — не наступай на ті ж граблі
     └── qa.md                       ← QA-чекліст перед здачею деки
 ```
+
+## Figma
+
+Та сама дека може бути намальована нативними фреймами на сторінці Figma-файлу (скіл
+`db-figma-decks`): `python3 scripts/figma_payload.py --direction ecosystem --page-id <node-id> --name "Дека" --install-kit --specs specs.json`
+збирає код для `use_figma`. Токени й вектори читаються з `db_deck.py` (нічого не дублюється);
+рендерер `figma/db_figma.js` — порт layout-ів. Шрифти у Figma-деках — DM Sans + DM Mono.
+Деталі, формат spec-ів і відомі обмеження — `docs/figma.md`.
 
 ## Залежності
 

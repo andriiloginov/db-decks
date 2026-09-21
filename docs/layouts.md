@@ -17,6 +17,9 @@ Where the JS version took one options object, the Python port takes keyword argu
 | `closing(deck, title, contact, hero, notes)` | last slide | white plate with notched corners. Title box auto-grows for a wrapped (2-line) title and pushes `contact` down with it — see `pitfalls.md` — but stays untested past 2 lines; keep the title short enough to need at most 2 |
 | `quote_block(deck, slide, x, y, w, label, quote, cite, scale)` / `quote_block_metrics(w, label, quote, cite, scale)` | pull-quote / testimonial, solid-accent block: quote-mark icon + caps label in a left column, bold quote + citation in a right column (~50/50 split) — matches Figma node 2202:6432 | label ≤ 20 chars caps, quote ≤ 140 chars, cite ≤ 60 chars. Not a full-slide layout by itself — call `quote_block_metrics` first to measure (e.g. to vertically center it: `top + (avail - h) / 2`), then `quote_block` to draw. A single large headline quote (`scale=1.5`) plus a row of 2–3 smaller ones (`scale=1`) does not fit on one slide — split into two. Verified with `examples/test_quote.py` |
 
+Figma-рендерер (`figma/db_figma.js`, див. `figma.md`) додатково має `list`, `stack` і поле `lead`,
+яких у Python-версії поки немає.
+
 ## Content rules
 
 - One `**accent**` phrase per title/statement (2 at most). Sentence case for titles;
